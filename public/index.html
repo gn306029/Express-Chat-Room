@@ -14,14 +14,17 @@
     <script type="text/javascript">
     $(function() {
 
+    	// create sokcet object
         let socket = io();
         let clientList = [];
+        // send new user add event to server
         socket.emit("new user", socket.id);
-
+        // listen browser close the event
+        // we need before close send the disconnection to server
         window.onbeforeunload = function(e) {
             socket.emit("disconnection", socket.id);
         }
-
+        // set send message the event
         $("#send").click(() => {
             let data = {
                 id: socket.id,
@@ -30,7 +33,7 @@
 
             socket.emit("new message", data);
         });
-
+        // get current user list
         socket.on("getList" , (data) => {
         	console.log(data)
         	for (let i in data) {
@@ -41,7 +44,7 @@
                 }
             }
         });
-
+        // add new user to list
         socket.on("addList", (data) => {
         	if(!clientList.includes(data)){
         		clientList.push(data);
@@ -57,7 +60,7 @@
                 scrollAtTheEnd();
         	}
         });
-
+        // del user to list
         socket.on("delList", (data) => {
             for (let i in clientList) {
                 if (!data.includes(clientList[i])) {
@@ -77,7 +80,7 @@
                 }
             }
         });
-
+        // broadcast user type the message to any user
         socket.on("broadcast message", (data) => {
 
             let html;

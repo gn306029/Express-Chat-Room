@@ -57,6 +57,6 @@ io.sockets.on("connection" , (socket) =>{
 });
 
 // set server listen the port in 8080
-server.listen("8080", () => {
+server.listen(process.env.PORT || 8080, () => {
 	console.log("Server already start");
 });
