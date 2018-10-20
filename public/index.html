@@ -84,24 +84,15 @@
         socket.on("broadcast message", (data) => {
 
             let html;
-
-            if (data.id == socket.id) {
-                html = `
-	        		<div class='message-box message-box-self'>
-	        			<div class='message-self'>
-	        				${data.msg}
-	        			</div>
-	        		</div>
-	        	`;
-            } else {
-                html = `
-	        		<div class='message-box message-box-other'>
-	        			<div class='message-other'>
-	        				${data.msg}
-	        			</div>
-	        		</div>
-	        	`
-            }
+            let boxClass = (data.id == socket.id) ? "message-box-self" : "message-box-other";
+            let msgClass = (data.id == socket.id) ? "message-self" : "message-other";
+            html = `
+                    <div class='message-box ${boxClass}'>
+                        <div class=${msgClass}>
+                            ${data.msg}
+                        </div>
+                    </div>
+                `;
 
             $("#msg-content").append(html);
             scrollAtTheEnd();
